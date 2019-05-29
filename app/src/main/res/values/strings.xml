@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Assistant</string>
+
+    <string name="navigation1">基础</string>
+    <string name="navigation2">进阶</string>
+    <string name="navigation3">issue</string>
+    <string name="navigation4">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
