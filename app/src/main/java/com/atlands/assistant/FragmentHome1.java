@@ -10,6 +10,17 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.atlands.assistant.db.Onelevel;
+import com.atlands.assistant.db.Twolevel;
+import com.atlands.assistant.treeview.MyAdapter;
+import com.atlands.assistant.treeview.Node;
+import com.atlands.assistant.treeview.Tree;
+import com.atlands.assistant.treeview.TreeListViewAdapter;
+
+import org.litepal.LitePal;
+
+import java.util.List;
+
 public class FragmentHome1 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,13 +29,50 @@ public class FragmentHome1 extends Fragment {
 
     private ListView listView;
 
+    Tree<String> mTree = new Tree();
+    TreeListViewAdapter myAdapter = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_home1, container, false);
+
+        //初始化数据
+        initData();
         listView=view.findViewById(R.id.list_content);
+        myAdapter = new MyAdapter(listView,getActivity(),mTree);
+        listView.setAdapter(myAdapter);
         return view;
+    }
+
+    private void initData() {
+        mTree.addRoot(0,"");
+        mTree.addLeaf(1,0,"a");
+        mTree.addLeaf(2,0,"b");
+        mTree.addLeaf(3,0,"c");
+        mTree.addLeaf(5,0,"d");
+        mTree.addLeaf(4,2,"e");
+        mTree.addLeaf(7,4,"f");
+        mTree.addLeaf(8,7,"g");
+        mTree.addLeaf(9,8,"h");
+        mTree.addLeaf(6,5,"i");
+
+//        int i=0;
+//        mTree.addRoot(i,"");
+//        List<Onelevel> onelevelList= LitePal.findAll(Onelevel.class);
+//        for (Onelevel onelevel:onelevelList){
+//            List<Twolevel> twolevelList=LitePal.where("oid=?",onelevel.getId()+"").find(Twolevel.class);
+//            if (twolevelList.size()>0){
+//
+//            }
+//        }
+    }
+    public void onClickTreeNode(Node node, int position){
+        //对节点的处理 可以在这里做，
+        //比如，如果要删除节点，直接点用
+        //mTree.deleteNode(node.get_id());
+        //myAdapter.notifyDataSetChanged();
     }
 
     public FragmentHome1() {

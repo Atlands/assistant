@@ -17,16 +17,13 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/themebar1" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </ScrollView>
+                android:layout_height="0dp"
+                android:layout_weight="1" >
+            </android.support.v4.view.ViewPager>
+
 
         <View
             android:layout_width="match_parent"

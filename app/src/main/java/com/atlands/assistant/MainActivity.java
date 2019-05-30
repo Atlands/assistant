@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         //LitePal初始化
         LitePal.initialize(this);
+
         viewPager=findViewById(R.id.viewpager);
         bNavigation=findViewById(R.id.navigation_bottom);
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
