@@ -1,25 +1,31 @@
 package com.atlands.assistant;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ListView;
+import android.widget.ImageView;
 
+import com.atlands.assistant.db.Contentlist;
 import com.atlands.assistant.db.Onelevel;
 import com.atlands.assistant.db.Twolevel;
-import com.atlands.assistant.treeview.MyAdapter;
-import com.atlands.assistant.treeview.Node;
-import com.atlands.assistant.treeview.Tree;
-import com.atlands.assistant.treeview.TreeListViewAdapter;
+import com.atlands.assistant.treeview.Dir;
+import com.atlands.assistant.treeview.DirectoryNodeBinder;
+import com.atlands.assistant.treeview.File;
+import com.atlands.assistant.treeview.FileNodeBinder;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import tellh.com.recyclertreeview_lib.TreeNode;
+import tellh.com.recyclertreeview_lib.TreeViewAdapter;
 
 public class FragmentHome1 extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -27,53 +33,76 @@ public class FragmentHome1 extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private ListView listView;
+    private RecyclerView recyclerView;
+    private TreeViewAdapter adapter;
 
-    Tree<String> mTree = new Tree();
-    TreeListViewAdapter myAdapter = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_home1, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_home1, container, false);
+        recyclerView=view.findViewById(R.id.rv);
+        LitePal.getDatabase();
         //初始化数据
         initData();
-        listView=view.findViewById(R.id.list_content);
-        myAdapter = new MyAdapter(listView,getActivity(),mTree);
-        listView.setAdapter(myAdapter);
+
+
         return view;
     }
 
     private void initData() {
-        mTree.addRoot(0,"");
-        mTree.addLeaf(1,0,"a");
-        mTree.addLeaf(2,0,"b");
-        mTree.addLeaf(3,0,"c");
-        mTree.addLeaf(5,0,"d");
-        mTree.addLeaf(4,2,"e");
-        mTree.addLeaf(7,4,"f");
-        mTree.addLeaf(8,7,"g");
-        mTree.addLeaf(9,8,"h");
-        mTree.addLeaf(6,5,"i");
+        List<TreeNode> nodes = new ArrayList<>();
+        List<Onelevel> onelevels = LitePal.findAll(Onelevel.class);
+        Log.d("one",onelevels.toString());
+        for (Onelevel onelevel : onelevels) {
+            TreeNode<Dir> one = new TreeNode<>(new Dir(onelevel.getName()));
+            nodes.add(one);
+            List<Twolevel> twolevels = LitePal.where("oid = ?", onelevel.getId() + "").find(Twolevel.class);
+            Log.d("hhh",twolevels.size()+"");
+            if (twolevels.size() > 0) {
+                for (Twolevel twolevel : twolevels) {
+                    TreeNode<Dir> two = one.addChild(new TreeNode<>(new Dir(twolevel.getName())));
+                    List<Contentlist>contentlists=LitePal.where("wid = ?",twolevel.getId()+"").find(Contentlist.class);
+                    for (Contentlist contentlist:contentlists){
+                        two.addChild(new TreeNode<>(new File(contentlist.getName())));
+                    }
+                }
+            }else {
+                List<Contentlist>contentlists=LitePal.where("oid = ?",onelevel.getId()+"").find(Contentlist.class);
+                for (Contentlist contentlist:contentlists){
+                    one.addChild(new TreeNode<>(new File(contentlist.getName())));
+                }
+            }
+        }
 
-//        int i=0;
-//        mTree.addRoot(i,"");
-//        List<Onelevel> onelevelList= LitePal.findAll(Onelevel.class);
-//        for (Onelevel onelevel:onelevelList){
-//            List<Twolevel> twolevelList=LitePal.where("oid=?",onelevel.getId()+"").find(Twolevel.class);
-//            if (twolevelList.size()>0){
-//
-//            }
-//        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
+        adapter=new TreeViewAdapter(nodes, Arrays.asList(new FileNodeBinder(),new DirectoryNodeBinder()));
+        //是否折叠树视图
+        adapter.ifCollapseChildWhileCollapseParent(true);
+        adapter.setOnTreeNodeListener(new TreeViewAdapter.OnTreeNodeListener() {
+            @Override
+            public boolean onClick(TreeNode node, RecyclerView.ViewHolder holder) {
+                if (!node.isLeaf()) {
+                    //更新并切换节点
+                    onToggle(!node.isExpand(), holder);
+//                    if (!node.isExpand())
+//                        adapter.collapseBrotherNode(node);
+                }
+                return false;
+            }
+
+            @Override
+            public void onToggle(boolean isExpand, RecyclerView.ViewHolder holder) {
+                DirectoryNodeBinder.ViewHolder dirViewHolder = (DirectoryNodeBinder.ViewHolder) holder;
+                final ImageView ivArrow = dirViewHolder.getIvArrow();
+                int rotateDegree = isExpand ? 90 : -90;
+                ivArrow.animate().rotationBy(rotateDegree).start();
+            }
+        });
+        recyclerView.setAdapter(adapter);
     }
-    public void onClickTreeNode(Node node, int position){
-        //对节点的处理 可以在这里做，
-        //比如，如果要删除节点，直接点用
-        //mTree.deleteNode(node.get_id());
-        //myAdapter.notifyDataSetChanged();
-    }
+
 
     public FragmentHome1() {
         // Required empty public constructor

@@ -17,7 +17,7 @@ public class DBManager {
     private static final String PACKAGE_NAME = "com.atlands.assistant";
     private static final String DB_PATH = "/data"
             + Environment.getDataDirectory().getAbsolutePath() + "/"
-            + PACKAGE_NAME;  //在手机里存放数据库的位置
+            + PACKAGE_NAME+"/databases";  //在手机里存放数据库的位置
 
     private SQLiteDatabase database;
     private Context context;

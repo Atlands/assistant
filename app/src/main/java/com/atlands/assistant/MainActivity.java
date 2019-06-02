@@ -7,13 +7,16 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.atlands.assistant.db.DBManager;
+import com.atlands.assistant.db.Onelevel;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
         //LitePal初始化
         LitePal.initialize(this);
-
+        List<Onelevel> movies = LitePal.findAll(Onelevel.class);
+        for (Onelevel m:movies){
+            Log.d("hhh", m.getName());
+        }
         viewPager=findViewById(R.id.viewpager);
         bNavigation=findViewById(R.id.navigation_bottom);
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
