@@ -1,8 +1,10 @@
 package com.atlands.assistant.treeview;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.atlands.assistant.ContentPaper;
 import com.atlands.assistant.R;
 
 import tellh.com.recyclertreeview_lib.TreeNode;
@@ -19,9 +21,17 @@ public class FileNodeBinder extends TreeViewBinder<FileNodeBinder.ViewHolder> {
     }
 
     @Override
-    public void bindView(ViewHolder holder, int position, TreeNode node) {
-        File fileNode = (File) node.getContent();
+    public void bindView(final ViewHolder holder, final int position, TreeNode node) {
+        final File fileNode = (File) node.getContent();
         holder.tvName.setText(fileNode.fileName);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(v.getContext(), ContentPaper.class);
+                intent.putExtra("name",fileNode.fileName);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -36,6 +46,5 @@ public class FileNodeBinder extends TreeViewBinder<FileNodeBinder.ViewHolder> {
             super(rootView);
             this.tvName = (TextView) rootView.findViewById(R.id.tv_name);
         }
-
     }
 }

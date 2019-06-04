@@ -1,5 +1,6 @@
 package com.atlands.assistant.db;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
@@ -15,9 +16,8 @@ public class DBManager {
 
     private static final String DB_NAME = "assistant.db"; //保存的数据库文件名
     private static final String PACKAGE_NAME = "com.atlands.assistant";
-    private static final String DB_PATH = "/data"
-            + Environment.getDataDirectory().getAbsolutePath() + "/"
-            + PACKAGE_NAME+"/databases";  //在手机里存放数据库的位置
+    @SuppressLint("SdCardPath")
+    private static final String DB_PATH = "/data/data/com.atlands.assistant/" + "databases/";  //在手机里存放数据库的位置
 
     private SQLiteDatabase database;
     private Context context;
