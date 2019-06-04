@@ -47,7 +47,6 @@ public class FragmentHome1 extends Fragment {
         //初始化数据
         initData();
 
-
         return view;
     }
 
