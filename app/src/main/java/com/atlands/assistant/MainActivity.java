@@ -29,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //导入数据库
-        dbHelper = new DBManager(this);
-        dbHelper.openDatabase();
-        dbHelper.closeDatabase();
+        dbHelper =new DBManager(this);
+        dbHelper.copyDatabase();
 
         //LitePal初始化
         LitePal.initialize(this);

@@ -43,7 +43,7 @@ public class FragmentHome1 extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home1, container, false);
         recyclerView=view.findViewById(R.id.rv);
-        LitePal.getDatabase();
+        //LitePal.getDatabase();
         //初始化数据
         initData();
 
@@ -53,7 +53,7 @@ public class FragmentHome1 extends Fragment {
     private void initData() {
         List<TreeNode> nodes = new ArrayList<>();
         List<Onelevel> onelevels = LitePal.findAll(Onelevel.class);
-        Log.d("one",onelevels.toString());
+        Log.d("oneh",onelevels.toString());
         for (Onelevel onelevel : onelevels) {
             TreeNode<Dir> one = new TreeNode<>(new Dir(onelevel.getName()));
             nodes.add(one);
