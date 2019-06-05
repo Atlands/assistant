@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ContentPaper">
-
-    <WebView
-        android:id="@+id/web_view"
+    <LinearLayout
+        android:id="@+id/link_web"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal" />
 </LinearLayout>

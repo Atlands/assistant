@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         //导入数据库
         dbHelper =new DBManager(this);
-        dbHelper.copyDatabase();
+        dbHelper.openDatabase();
 
         //LitePal初始化
         LitePal.initialize(this);
