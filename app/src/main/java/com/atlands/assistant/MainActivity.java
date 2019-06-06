@@ -1,6 +1,8 @@
 package com.atlands.assistant;
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,13 +18,16 @@ import com.atlands.assistant.db.Onelevel;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    public DBManager dbHelper;
+    private DBManager dbHelper;
     private ViewPager viewPager;
     private BottomNavigationView bNavigation;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +36,15 @@ public class MainActivity extends AppCompatActivity {
         //导入数据库
         dbHelper =new DBManager(this);
         dbHelper.openDatabase();
+        dbHelper.closeDatabase();
+
+
 
         //LitePal初始化
         LitePal.initialize(this);
         List<Onelevel> movies = LitePal.findAll(Onelevel.class);
-        for (Onelevel m:movies){
-            Log.d("hhh", m.getName());
-        }
+        Log.d("hhh", movies.size()+"");
+
         viewPager=findViewById(R.id.viewpager);
         bNavigation=findViewById(R.id.navigation_bottom);
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

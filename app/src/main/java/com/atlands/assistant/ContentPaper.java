@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import com.atlands.assistant.db.Contentlist;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.AgentWebView;
+import com.just.agentweb.DefaultWebClient;
 
 import org.litepal.LitePal;
 
@@ -21,7 +22,6 @@ import java.util.List;
 public class ContentPaper extends AppCompatActivity {
 
     private LinearLayout view;
-    private AgentWeb mAgentWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +33,10 @@ public class ContentPaper extends AppCompatActivity {
         String name = intent.getStringExtra("name");
         List<Contentlist> contentlists = LitePal.where("name = ?", name).find(Contentlist.class);
         for (Contentlist contentlist : contentlists) {
-            mAgentWeb = AgentWeb.with(this)
+            AgentWeb mAgentWeb = AgentWeb.with(this)
                     .setAgentWebParent((LinearLayout) view, new LinearLayout.LayoutParams(-1, -1))
                     .useDefaultIndicator()
+                    .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
                     .createAgentWeb()
                     .ready()
                     .go(contentlist.getLink());
