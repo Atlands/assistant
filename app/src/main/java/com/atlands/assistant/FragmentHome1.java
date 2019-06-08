@@ -102,7 +102,6 @@ public class FragmentHome1 extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
-
     public FragmentHome1() {
         // Required empty public constructor
     }
