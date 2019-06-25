@@ -1,11 +1,21 @@
 <resources>
     <string name="app_name">Assistant</string>
 
+    //折叠菜单选项
+    <string name="drawer1">路径</string>
+    <string name="drawer2">新增</string>
+    <string name="drawer3">关于</string>
+
+    //首页导航项
     <string name="navigation1">基础</string>
     <string name="navigation2">进阶</string>
-    <string name="navigation3">issue</string>
+    <string name="navigation3">报错</string>
     <string name="navigation4">我的</string>
 
+    //addpager页
+    <string name="catalog">目录</string>
+    <string name="title">标题：</string>
+    <string name="url">网址：</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
