@@ -13,9 +13,14 @@
     <string name="navigation4">我的</string>
 
     //addpager页
+    <string name="select">- 请选择 -</string>
     <string name="catalog">目录</string>
     <string name="title">标题：</string>
     <string name="url">网址：</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="done">完成</string>
+
+    //contentpager页
+    <string name="delete"> 删除本章</string>
+    <string name="copy">复制网址</string>
+    <string name="webapp">用浏览器打开</string>
 </resources>

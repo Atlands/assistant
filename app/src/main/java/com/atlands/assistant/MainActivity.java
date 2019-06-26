@@ -1,5 +1,6 @@
 package com.atlands.assistant;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //默认首页
         textView.setText(R.string.navigation1);
 
+        //底部导航点击事件
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -146,7 +148,15 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 break;
+            case R.id.drawer1:
+                break;
+            case R.id.drawer2:
+                Intent intentAddPager = new Intent(MainActivity.this, AddPager.class);
+                startActivity(intentAddPager);
+            case R.id.drawer3:
+                break;
             default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
