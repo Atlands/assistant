@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -121,8 +122,26 @@ public class MainActivity extends AppCompatActivity {
         };
         viewPager.setAdapter(mPagerAdapter);   //设置适配器
         viewPager.setOffscreenPageLimit(2); //预加载剩下两页
-
         //以上就将Fragment装入了ViewPager
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.drawer1:
+                        break;
+                    case R.id.drawer2:
+                        Intent intentAddPager = new Intent(MainActivity.this, AddPager.class);
+                        startActivity(intentAddPager);
+                        break;
+                    case R.id.drawer3:
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -144,19 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                break;
-            case R.id.drawer1:
-                break;
-            case R.id.drawer2:
-                Intent intentAddPager = new Intent(MainActivity.this, AddPager.class);
-                startActivity(intentAddPager);
-            case R.id.drawer3:
-                break;
-            default:
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
     }

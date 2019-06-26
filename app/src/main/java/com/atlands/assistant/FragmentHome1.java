@@ -53,12 +53,10 @@ public class FragmentHome1 extends Fragment {
     private void initData() {
         List<TreeNode> nodes = new ArrayList<>();
         List<Onelevel> onelevels = LitePal.findAll(Onelevel.class);
-        Log.d("oneh",onelevels.toString());
         for (Onelevel onelevel : onelevels) {
             TreeNode<Dir> one = new TreeNode<>(new Dir(onelevel.getName()));
             nodes.add(one);
             List<Twolevel> twolevels = LitePal.where("oid = ?", onelevel.getId() + "").find(Twolevel.class);
-            Log.d("hhh",twolevels.size()+"");
             if (twolevels.size() > 0) {
                 for (Twolevel twolevel : twolevels) {
                     TreeNode<Dir> two = one.addChild(new TreeNode<>(new Dir(twolevel.getName())));
