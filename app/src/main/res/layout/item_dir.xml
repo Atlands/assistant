@@ -19,7 +19,6 @@
         android:drawableLeft="@drawable/ic_folder_light_blue_700_24dp"
         android:drawablePadding="10dp"
         android:gravity="center_vertical"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
         tools:text="@string/app_name" />
 </LinearLayout>

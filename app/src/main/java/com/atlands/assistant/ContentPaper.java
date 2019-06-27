@@ -1,5 +1,8 @@
 package com.atlands.assistant;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atlands.assistant.db.Contentlist;
 import com.just.agentweb.AgentWeb;
@@ -78,19 +82,30 @@ public class ContentPaper extends AppCompatActivity {
     }
 
     @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
             case R.id.delete:
-                LitePal.delete(Contentlist.class,contentlists.get(0).getId());
+                LitePal.delete(Contentlist.class, contentlists.get(0).getId());
+                Toast.makeText(ContentPaper.this, getResources().getString(R.string.toast_succes_delete), Toast.LENGTH_SHORT).show();
                 finish();
                 break;
+            case R.id.copy:
+                //获取剪贴版
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                //创建ClipData对象
+                //第一个参数只是一个标记，随便传入。
+                //第二个参数是要复制到剪贴版的内容
+                ClipData clip = ClipData.newPlainText("simple text", contentlists.get(0).getLink());
+                //传入clipdata对象.
+                clipboard.setPrimaryClip(clip);
+                break;
             case R.id.skip_web:
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                Uri skip_uri=Uri.parse(contentlists.get(0).getLink());
+                Uri skip_uri = Uri.parse(contentlists.get(0).getLink());
                 intent.setData(skip_uri);
                 startActivity(intent);
             default:

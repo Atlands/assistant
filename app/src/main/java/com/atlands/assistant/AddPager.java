@@ -1,5 +1,6 @@
 package com.atlands.assistant;
 
+import android.opengl.Visibility;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atlands.assistant.db.Contentlist;
 import com.atlands.assistant.db.Onelevel;
@@ -75,8 +77,11 @@ public class AddPager extends AppCompatActivity {
                 selectitem3 = 0;
                 spinner2.setSelection(0);
                 spinner3.setSelection(0);
+                spinner2.setVisibility(View.GONE);
+                spinner3.setVisibility(View.GONE);
                 if (!item1.get(position).equals(select)) {
                     selectitem1 = position;
+                    spinner2.setVisibility(View.VISIBLE);
                     final List<Onelevel> onelevels = LitePal.select("name").where("cid = ?", selectitem1 + "").find(Onelevel.class);
                     for (Onelevel onelevel : onelevels) {
                         item2.add(onelevel.getName());
@@ -90,6 +95,7 @@ public class AddPager extends AppCompatActivity {
                             selectitem2 = 0;
                             selectitem3 = 0;
                             spinner3.setSelection(0);
+                            spinner3.setVisibility(View.GONE);
                             if (!item2.get(position).equals(select)) {
                                 final List<String> item3 = new ArrayList<>();
                                 item3.add(select);
@@ -99,6 +105,7 @@ public class AddPager extends AppCompatActivity {
                                 for (Twolevel twolevel : twolevels) {
                                     item3.add(twolevel.getName());
                                 }
+                                if (twolevels.size() > 0) spinner3.setVisibility(View.VISIBLE);
                                 ArrayAdapter<String> itemAdapter3 = new ArrayAdapter<String>(AddPager.this, R.layout.item_addpager, item3);
                                 spinner3.setAdapter(itemAdapter3);
                                 spinner3.setSelection(0);
@@ -135,13 +142,37 @@ public class AddPager extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spinner1.getId() != 0) {
-                    Contentlist contentlist = new Contentlist();
-                    contentlist.setName(title.getText().toString());
-                    contentlist.setLink(url.getText().toString());
-                    contentlist.setCid(selectitem1);
-                    contentlist.setOid(selectitem2);
-                    contentlist.setWid(selectitem3);
+                if (selectitem1 == 0 || (selectitem2 == 0 && spinner2.getVisibility() == View.VISIBLE) || (selectitem3 == 0 && spinner3.getVisibility() == View.VISIBLE)) {
+                    Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_done), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (title.getText() == null || url.getText() == null) {
+                        Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_none), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Contentlist contentlist = new Contentlist();
+                        contentlist.setName(title.getText().toString());
+                        contentlist.setLink(url.getText().toString());
+                        contentlist.setCid(selectitem1);
+                        contentlist.setOid(selectitem2);
+                        contentlist.setWid(selectitem3);
+                        contentlist.save();
+                        Toast.makeText(AddPager.this, getResources().getString(R.string.toast_succes_done), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (title.getText() == null) {
+                    Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_none), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (url.getText() == null) {
+                    Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_none), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -155,7 +186,7 @@ public class AddPager extends AppCompatActivity {
 
     private void initView() {
         toolbar = findViewById(R.id.toolbar);
-        textView=findViewById(R.id.bar_title);
+        textView = findViewById(R.id.bar_title);
         spinner1 = findViewById(R.id.spinner1);
         spinner2 = findViewById(R.id.spinner2);
         spinner3 = findViewById(R.id.spinner3);

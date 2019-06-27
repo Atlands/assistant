@@ -18,9 +18,15 @@
     <string name="title">标题：</string>
     <string name="url">网址：</string>
     <string name="done">完成</string>
+    <string name="toast_not_done">根路径不能为空</string>
+    <string name="toast_succes_done">添加成功!</string>
 
     //contentpager页
     <string name="delete"> 删除本章</string>
     <string name="copy">复制网址</string>
     <string name="webapp">用浏览器打开</string>
+    <string name="toast_succes_delete">删除成功</string>
+    <string name="toast_succes_copy">复制成功</string>
+    <string name="toast_not_none">输入不能为空</string>
+    <string name="online_link">https://</string>
 </resources>
