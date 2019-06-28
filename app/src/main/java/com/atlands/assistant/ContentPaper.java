@@ -1,9 +1,11 @@
 package com.atlands.assistant;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -90,6 +92,10 @@ public class ContentPaper extends AppCompatActivity {
             case R.id.delete:
                 LitePal.delete(Contentlist.class, contentlists.get(0).getId());
                 Toast.makeText(ContentPaper.this, getResources().getString(R.string.toast_succes_delete), Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPreferences=getSharedPreferences("main_isRenovateViewPager",MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putBoolean("is_renovate_ViewPager",true);
+                editor.apply();
                 finish();
                 break;
             case R.id.copy:
@@ -101,6 +107,7 @@ public class ContentPaper extends AppCompatActivity {
                 ClipData clip = ClipData.newPlainText("simple text", contentlists.get(0).getLink());
                 //传入clipdata对象.
                 clipboard.setPrimaryClip(clip);
+                Toast.makeText(ContentPaper.this, getResources().getString(R.string.toast_succes_copy), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.skip_web:
                 Intent intent = new Intent();

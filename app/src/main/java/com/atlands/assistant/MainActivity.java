@@ -1,9 +1,11 @@
 package com.atlands.assistant;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
@@ -30,7 +32,6 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DBManager dbHelper;
     private ViewPager viewPager;
     private BottomNavigationView bNavigation;
     private TextView textView;
@@ -38,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    BottomNavigationItemView bitem;
+
+    private SharedPreferences preferences;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -47,18 +50,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //导入数据库
-        dbHelper = new DBManager(this);
+        DBManager dbHelper = new DBManager(this);
         dbHelper.openDatabase();
         dbHelper.closeDatabase();
-
         //LitePal初始化
         LitePal.initialize(this);
 
         //控件初始化
         initView();
 
+        preferences=getSharedPreferences("main_isRenovateViewPager",MODE_PRIVATE);
+        SharedPreferences.Editor editor=preferences.edit();
+        editor.putBoolean("is_renovate_ViewPager",false);
+        editor.apply();
+
         //默认首页
         textView.setText(R.string.navigation1);
+
+        //加载viewPager
+        renovateViewPager();
 
         //底部导航点击事件
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -82,6 +92,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.drawer1:
+                        break;
+                    case R.id.drawer2:
+                        Intent intentAddPager = new Intent(MainActivity.this, AddPager.class);
+                        startActivity(intentAddPager);
+                        break;
+                    case R.id.drawer3:
+                        Intent intentAbout=new Intent(MainActivity.this,About.class);
+                        startActivity(intentAbout);
+                        break;
+                    default:
+                        break;
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawerLayout.closeDrawers();
+        if (!preferences.getBoolean("is_renovate_ViewPager",false))
+            renovateViewPager();
+    }
+
+    //ViewPager刷新
+    private void renovateViewPager() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -123,25 +165,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(mPagerAdapter);   //设置适配器
         viewPager.setOffscreenPageLimit(2); //预加载剩下两页
         //以上就将Fragment装入了ViewPager
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.drawer1:
-                        break;
-                    case R.id.drawer2:
-                        Intent intentAddPager = new Intent(MainActivity.this, AddPager.class);
-                        startActivity(intentAddPager);
-                        break;
-                    case R.id.drawer3:
-                        break;
-                    default:
-                        break;
-                }
-                return true;
-            }
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

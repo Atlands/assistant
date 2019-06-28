@@ -6,5 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".About">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="360dp">
+        <ImageView
+            android:id="@+id/icon_app"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_lunch"
+            android:layout_width="128dp"
+            android:layout_height="128dp" />
+        <TextView
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/icon_app"
+            android:text="version 0.0.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+    </LinearLayout>
 </LinearLayout>

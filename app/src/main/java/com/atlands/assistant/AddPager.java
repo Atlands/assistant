@@ -1,5 +1,6 @@
 package com.atlands.assistant;
 
+import android.content.SharedPreferences;
 import android.opengl.Visibility;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -78,10 +79,15 @@ public class AddPager extends AppCompatActivity {
                 spinner2.setSelection(0);
                 spinner3.setSelection(0);
                 spinner2.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 spinner3.setVisibility(View.GONE);
+                imageView3.setVisibility(View.GONE);
                 if (!item1.get(position).equals(select)) {
                     selectitem1 = position;
-                    spinner2.setVisibility(View.VISIBLE);
+                    if (item1.get(position).equals(getResources().getString(R.string.navigation1))) {
+                        spinner2.setVisibility(View.VISIBLE);
+                        imageView2.setVisibility(View.VISIBLE);
+                    }
                     final List<Onelevel> onelevels = LitePal.select("name").where("cid = ?", selectitem1 + "").find(Onelevel.class);
                     for (Onelevel onelevel : onelevels) {
                         item2.add(onelevel.getName());
@@ -96,6 +102,7 @@ public class AddPager extends AppCompatActivity {
                             selectitem3 = 0;
                             spinner3.setSelection(0);
                             spinner3.setVisibility(View.GONE);
+                            imageView3.setVisibility(View.GONE);
                             if (!item2.get(position).equals(select)) {
                                 final List<String> item3 = new ArrayList<>();
                                 item3.add(select);
@@ -105,7 +112,10 @@ public class AddPager extends AppCompatActivity {
                                 for (Twolevel twolevel : twolevels) {
                                     item3.add(twolevel.getName());
                                 }
-                                if (twolevels.size() > 0) spinner3.setVisibility(View.VISIBLE);
+                                if (twolevels.size() > 0) {
+                                    spinner3.setVisibility(View.VISIBLE);
+                                    imageView3.setVisibility(View.VISIBLE);
+                                }
                                 ArrayAdapter<String> itemAdapter3 = new ArrayAdapter<String>(AddPager.this, R.layout.item_addpager, item3);
                                 spinner3.setAdapter(itemAdapter3);
                                 spinner3.setSelection(0);
@@ -145,7 +155,8 @@ public class AddPager extends AppCompatActivity {
                 if (selectitem1 == 0 || (selectitem2 == 0 && spinner2.getVisibility() == View.VISIBLE) || (selectitem3 == 0 && spinner3.getVisibility() == View.VISIBLE)) {
                     Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_done), Toast.LENGTH_SHORT).show();
                 } else {
-                    if (title.getText() == null || url.getText() == null) {
+                    Log.d("hhh_addpager",title.getText().toString());
+                    if (title.getText().toString() .equals("")  || url.getText().toString() .equals("")) {
                         Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_none), Toast.LENGTH_SHORT).show();
                     } else {
                         Contentlist contentlist = new Contentlist();
@@ -155,6 +166,10 @@ public class AddPager extends AppCompatActivity {
                         contentlist.setOid(selectitem2);
                         contentlist.setWid(selectitem3);
                         contentlist.save();
+                        SharedPreferences sharedPreferences=getSharedPreferences("main_isRenovateViewPager",MODE_PRIVATE);
+                        SharedPreferences.Editor editor=sharedPreferences.edit();
+                        editor.putBoolean("is_renovate_ViewPager",true);
+                        editor.apply();
                         Toast.makeText(AddPager.this, getResources().getString(R.string.toast_succes_done), Toast.LENGTH_SHORT).show();
                     }
                 }
