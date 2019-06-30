@@ -18,12 +18,8 @@
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#3399cc" />
+            android:layout_weight="1"
+            android:background="#EBE7E7" />
 
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation_bottom"

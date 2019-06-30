@@ -41,10 +41,10 @@ public class DirectoryNodeBinder extends TreeViewBinder<DirectoryNodeBinder.View
         private ImageView ivArrow;
         private TextView tvName;
 
-        public ViewHolder(View rootView) {
+        ViewHolder(View rootView) {
             super(rootView);
-            this.ivArrow = (ImageView) rootView.findViewById(R.id.iv_arrow);
-            this.tvName = (TextView) rootView.findViewById(R.id.tv_name);
+            this.ivArrow = rootView.findViewById(R.id.iv_arrow);
+            this.tvName = rootView.findViewById(R.id.tv_name);
         }
 
         public ImageView getIvArrow() {

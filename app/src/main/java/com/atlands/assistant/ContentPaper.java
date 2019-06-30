@@ -32,10 +32,7 @@ import java.util.Objects;
 
 public class ContentPaper extends AppCompatActivity {
 
-    private LinearLayout view;
     private AgentWeb mAgentWeb;
-    private Toolbar toolbar;
-    private TextView textView;
 
     private List<Contentlist> contentlists;
 
@@ -45,9 +42,9 @@ public class ContentPaper extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content_paper);
 
-        view = findViewById(R.id.link_web);
-        textView = findViewById(R.id.bar_title);
-        toolbar = findViewById(R.id.toolbar);
+        LinearLayout layout = findViewById(R.id.link_web);
+        TextView textView = findViewById(R.id.bar_title);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -61,7 +58,7 @@ public class ContentPaper extends AppCompatActivity {
         textView.setText(name);
         contentlists = LitePal.where("name = ?", name).find(Contentlist.class);
         mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent((LinearLayout) view, new LinearLayout.LayoutParams(-1, -1))
+                .setAgentWebParent((LinearLayout) layout, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
                 .createAgentWeb()

@@ -6,27 +6,62 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".About">
+
+    <include layout="@layout/toolbar" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="360dp">
+
         <ImageView
             android:id="@+id/icon_app"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_lunch"
             android:layout_width="128dp"
-            android:layout_height="128dp" />
+            android:layout_height="128dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_lunch" />
+
         <TextView
-            android:textSize="16sp"
-            android:layout_marginTop="8dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/icon_app"
-            android:text="version 0.0.1"
+            android:id="@+id/name_app"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon_app"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/app_name"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name_app"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="version 0.0.1"
+            android:textSize="16sp" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableTop="#cdcdcd"
+            android:drawableRight="@drawable/ic_add_pager_spinner_next"
+            android:drawableBottom="#cdcdcd"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:text="关于"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#cdcdcd"
+            android:gravity="center_vertical"
+            android:padding="8dp" />
     </LinearLayout>
 </LinearLayout>

@@ -56,6 +56,7 @@ public class ReViewAdapter extends RecyclerView.Adapter<ReViewAdapter.ViewHolder
             super(itemView);
             iView=itemView;
             textView = itemView.findViewById(R.id.tv_name);
+
         }
     }
 }

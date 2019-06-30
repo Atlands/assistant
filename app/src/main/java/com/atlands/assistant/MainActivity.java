@@ -2,12 +2,9 @@ package com.atlands.assistant;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -41,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
 
     private SharedPreferences preferences;
+    SharedPreferences.Editor editor;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -59,33 +57,28 @@ public class MainActivity extends AppCompatActivity {
         //控件初始化
         initView();
 
-        preferences=getSharedPreferences("main_isRenovateViewPager",MODE_PRIVATE);
-        SharedPreferences.Editor editor=preferences.edit();
-        editor.putBoolean("is_renovate_ViewPager",false);
+        preferences = getSharedPreferences("main_isRenovateViewPager", MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putBoolean("is_renovate_ViewPager", true);
+        editor.putInt("decide_what_fragment", 1);
         editor.apply();
 
-        //默认首页
-        textView.setText(R.string.navigation1);
-
-        //加载viewPager
+       /* //默认首页
+        textView.setText(R.string.navigation1);*/
         renovateViewPager();
-
         //底部导航点击事件
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.main_navi1:
-                        viewPager.setCurrentItem(0);
-                        textView.setText(R.string.navigation1);
+                        whatFagment(1);
                         break;
                     case R.id.main_navi2:
-                        viewPager.setCurrentItem(1);
-                        textView.setText(R.string.navigation2);
+                        whatFagment(2);
                         break;
                     case R.id.main_navi3:
-                        viewPager.setCurrentItem(2);
-                        textView.setText(R.string.navigation3);
+                        whatFagment(3);
                         break;
                 }
                 return false;
@@ -103,23 +96,50 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intentAddPager);
                         break;
                     case R.id.drawer3:
-                        Intent intentAbout=new Intent(MainActivity.this,About.class);
+                        Intent intentAbout = new Intent(MainActivity.this, About.class);
                         startActivity(intentAbout);
                         break;
                     default:
                         break;
                 }
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
     }
 
+    //根据i确定显示第几个fragment
+    private void whatFagment(int i) {
+        switch (i){
+            case 1:
+                viewPager.setCurrentItem(0);
+                textView.setText(R.string.navigation1);
+                break;
+            case 2:
+                viewPager.setCurrentItem(1);
+                textView.setText(R.string.navigation2);
+                break;
+            case 3:
+                viewPager.setCurrentItem(2);
+                textView.setText(R.string.navigation3);
+                break;
+            default:
+                break;
+        }
+        editor.putInt("decide_what_fragment", i);
+        editor.commit();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        drawerLayout.closeDrawers();
-        if (!preferences.getBoolean("is_renovate_ViewPager",false))
+        if (preferences.getBoolean("is_renovate_ViewPager", false)) {
             renovateViewPager();
+            editor.putBoolean("is_renovate_ViewPager", false);
+            editor.commit();
+            Log.d("hhh_main", "resume_renovate");
+        }
+        whatFagment(preferences.getInt("decide_what_fragment", 1));
     }
 
     //ViewPager刷新

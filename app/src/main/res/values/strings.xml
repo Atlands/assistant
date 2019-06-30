@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Assistant</string>
+    <string name="app_name">Android开发助手</string>
 
+    <string name="ad_text_skip">s | 跳过</string>
     //折叠菜单选项
     <string name="drawer1">路径</string>
     <string name="drawer2">新增</string>

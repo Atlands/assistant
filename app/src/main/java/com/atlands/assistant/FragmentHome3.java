@@ -2,8 +2,12 @@ package com.atlands.assistant;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +20,7 @@ import com.atlands.assistant.db.Contentlist;
 import org.litepal.LitePal;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class FragmentHome3 extends Fragment {
@@ -60,18 +65,18 @@ public class FragmentHome3 extends Fragment {
         }
     }
 
-    private RecyclerView recyclerView;
-
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home3, container, false);
         List<Contentlist> contentlists = LitePal.where("cid = 3").find(Contentlist.class);
-        recyclerView = view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         ReViewAdapter adapter = new ReViewAdapter(contentlists);
+        recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         return view;
     }

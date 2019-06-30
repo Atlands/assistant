@@ -1,8 +1,10 @@
 package com.atlands.assistant;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.opengl.Visibility;
 import android.os.Build;
+import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -155,8 +159,7 @@ public class AddPager extends AppCompatActivity {
                 if (selectitem1 == 0 || (selectitem2 == 0 && spinner2.getVisibility() == View.VISIBLE) || (selectitem3 == 0 && spinner3.getVisibility() == View.VISIBLE)) {
                     Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_done), Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.d("hhh_addpager",title.getText().toString());
-                    if (title.getText().toString() .equals("")  || url.getText().toString() .equals("")) {
+                    if (title.getText().toString().equals("") || url.getText().toString().equals("")) {
                         Toast.makeText(AddPager.this, getResources().getString(R.string.toast_not_none), Toast.LENGTH_SHORT).show();
                     } else {
                         Contentlist contentlist = new Contentlist();
@@ -166,9 +169,9 @@ public class AddPager extends AppCompatActivity {
                         contentlist.setOid(selectitem2);
                         contentlist.setWid(selectitem3);
                         contentlist.save();
-                        SharedPreferences sharedPreferences=getSharedPreferences("main_isRenovateViewPager",MODE_PRIVATE);
-                        SharedPreferences.Editor editor=sharedPreferences.edit();
-                        editor.putBoolean("is_renovate_ViewPager",true);
+                        SharedPreferences sharedPreferences = getSharedPreferences("main_isRenovateViewPager", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("is_renovate_ViewPager", true);
                         editor.apply();
                         Toast.makeText(AddPager.this, getResources().getString(R.string.toast_succes_done), Toast.LENGTH_SHORT).show();
                     }
@@ -197,6 +200,41 @@ public class AddPager extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 点击非编辑区域收起键盘
+     * 获取点击事件
+     */
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View view = getCurrentFocus();
+            if (isShouldHideKeyBord(view, ev)) {
+                hideSoftInput(view.getWindowToken());
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    //判定当前是否需要隐藏
+    protected boolean isShouldHideKeyBord(View v, MotionEvent ev) {
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left + v.getWidth();
+            return !(ev.getX() > left && ev.getX() < right && ev.getY() > top && ev.getY() < bottom);
+            //return !(ev.getY() > top && ev.getY() < bottom);
+        }
+        return false;
+    }
+
+    //隐藏软键盘
+    private void hideSoftInput(IBinder token) {
+        if (token != null) {
+            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     private void initView() {

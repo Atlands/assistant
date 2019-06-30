@@ -39,12 +39,12 @@ public class FileNodeBinder extends TreeViewBinder<FileNodeBinder.ViewHolder> {
         return R.layout.item_file;
     }
 
-    public class ViewHolder extends TreeViewBinder.ViewHolder {
-        public TextView tvName;
+    class ViewHolder extends TreeViewBinder.ViewHolder {
+        TextView tvName;
 
-        public ViewHolder(View rootView) {
+        ViewHolder(View rootView) {
             super(rootView);
-            this.tvName = (TextView) rootView.findViewById(R.id.tv_name);
+            this.tvName = rootView.findViewById(R.id.tv_name);
         }
     }
 }
