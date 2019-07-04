@@ -10,20 +10,31 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.atlands.assistant.db.DBManager;
+
+import org.litepal.LitePal;
+
 import java.lang.ref.WeakReference;
 import java.text.BreakIterator;
 
+import static java.lang.Thread.currentThread;
 import static java.lang.Thread.sleep;
 
 public class AdStart extends AppCompatActivity {
     private TextView textView;
-    private int count = 5;
+    private int count = 1;
     private final MyHandler mHandler = new MyHandler(this);
 
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //导入数据库
+        DBManager dbHelper = new DBManager(this);
+        dbHelper.openDatabase();
+        dbHelper.closeDatabase();
+        //LitePal初始化
+        LitePal.initialize(this);
         //定义全屏参数
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         //设置当前窗体为全屏显示
@@ -35,17 +46,18 @@ public class AdStart extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 count = 1;
-               // mHandler.
                 getCount();
             }
         });
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mHandler.sendEmptyMessageDelayed(0, 1000);
-            }
-        }).start();
-
+        textView.setVisibility(View.GONE);
+        //mHandler.sendEmptyMessageDelayed(0, 1000);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                mHandler.sendEmptyMessageDelayed(0, 1000);
+//            }
+//        }).start();
+        getCount();
     }
 
     private int getCount() {
@@ -69,11 +81,7 @@ public class AdStart extends AppCompatActivity {
             if (activity != null) {
                 if (msg.what == 0) {
                     activity.textView.setText(activity.getCount() + R.string.ad_text_skip);
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    activity.mHandler.sendEmptyMessageDelayed(0, 1000);
                     // activity.mHandler.sendEmptyMessageDelayed(0, 1000);
                 }
             }

@@ -1,7 +1,5 @@
 package com.atlands.assistant;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.atlands.assistant.adapter.ReViewAdapter;
+import com.atlands.assistant.adapter.MainReViewAdapter;
 import com.atlands.assistant.db.Contentlist;
 
 import org.litepal.LitePal;
@@ -75,7 +73,7 @@ public class FragmentHome3 extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        ReViewAdapter adapter = new ReViewAdapter(contentlists);
+        MainReViewAdapter adapter = new MainReViewAdapter(contentlists);
         recyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getActivity()),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         return view;

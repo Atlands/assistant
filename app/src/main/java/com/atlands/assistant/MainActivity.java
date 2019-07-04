@@ -18,11 +18,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
-
-import com.atlands.assistant.db.DBManager;
-
-import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -47,25 +44,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //导入数据库
-        DBManager dbHelper = new DBManager(this);
-        dbHelper.openDatabase();
-        dbHelper.closeDatabase();
-        //LitePal初始化
-        LitePal.initialize(this);
-
         //控件初始化
         initView();
 
         preferences = getSharedPreferences("main_isRenovateViewPager", MODE_PRIVATE);
         editor = preferences.edit();
-        editor.putBoolean("is_renovate_ViewPager", true);
-        editor.putInt("decide_what_fragment", 1);
+        editor.putInt("is_renovate_ViewPager", 10);
         editor.apply();
 
-       /* //默认首页
-        textView.setText(R.string.navigation1);*/
-        renovateViewPager();
+        initViewPager();
         //底部导航点击事件
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -85,65 +72,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //侧滑菜单点击事件
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Intent drawerItem = null;
                 switch (menuItem.getItemId()) {
                     case R.id.drawer1:
+                        drawerItem = new Intent(MainActivity.this, DevelopWeb.class);
                         break;
                     case R.id.drawer2:
-                        Intent intentAddPager = new Intent(MainActivity.this, AddPager.class);
-                        startActivity(intentAddPager);
+                        drawerItem = new Intent(MainActivity.this, AddPager.class);
                         break;
                     case R.id.drawer3:
-                        Intent intentAbout = new Intent(MainActivity.this, About.class);
-                        startActivity(intentAbout);
+                        drawerItem = new Intent(MainActivity.this, About.class);
                         break;
                     default:
                         break;
                 }
+                startActivity(drawerItem);
                 drawerLayout.closeDrawers();
                 return true;
             }
         });
     }
 
-    //根据i确定显示第几个fragment
-    private void whatFagment(int i) {
-        switch (i){
-            case 1:
-                viewPager.setCurrentItem(0);
-                textView.setText(R.string.navigation1);
-                break;
-            case 2:
-                viewPager.setCurrentItem(1);
-                textView.setText(R.string.navigation2);
-                break;
-            case 3:
-                viewPager.setCurrentItem(2);
-                textView.setText(R.string.navigation3);
-                break;
-            default:
-                break;
-        }
-        editor.putInt("decide_what_fragment", i);
-        editor.commit();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if (preferences.getBoolean("is_renovate_ViewPager", false)) {
-            renovateViewPager();
+        /*if (preferences.getBoolean("is_renovate_ViewPager", false)) {
             editor.putBoolean("is_renovate_ViewPager", false);
             editor.commit();
             Log.d("hhh_main", "resume_renovate");
         }
-        whatFagment(preferences.getInt("decide_what_fragment", 1));
+        whatFagment(preferences.getInt("decide_what_fragment", 1));*/
     }
 
-    //ViewPager刷新
-    private void renovateViewPager() {
+    //ViewPager初始化
+    private void initViewPager() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -173,6 +139,15 @@ public class MainActivity extends AppCompatActivity {
         //设置适配器用于装载Fragment
         FragmentPagerAdapter mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
+            public int getItemPosition(@NonNull Object object) {
+//                switch (preferences.getInt("is_renovate_ViewPager",10)){
+//                    case 1:
+//                        if (viewPager.getCurrentItem()==1)
+//                }
+                return POSITION_NONE;
+            }
+
+            @Override
             public Fragment getItem(int position) {
                 return fgLists.get(position);  //得到Fragment
             }
@@ -187,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
         //以上就将Fragment装入了ViewPager
     }
 
+    //private void reflashData(int type,L)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void initView() {
         viewPager = findViewById(R.id.viewpager);
@@ -210,5 +186,24 @@ public class MainActivity extends AppCompatActivity {
             drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+    //根据i确定显示第几个fragment
+    private void whatFagment(int i) {
+        switch (i){
+            case 1:
+                viewPager.setCurrentItem(0);
+                textView.setText(R.string.navigation1);
+                break;
+            case 2:
+                viewPager.setCurrentItem(1);
+                textView.setText(R.string.navigation2);
+                break;
+            case 3:
+                viewPager.setCurrentItem(2);
+                textView.setText(R.string.navigation3);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.atlands.assistant;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.opengl.Visibility;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.RequiresApi;
@@ -10,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -171,7 +169,7 @@ public class AddPager extends AppCompatActivity {
                         contentlist.save();
                         SharedPreferences sharedPreferences = getSharedPreferences("main_isRenovateViewPager", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean("is_renovate_ViewPager", true);
+                        editor.putInt("is_renovate_ViewPager", selectitem1);
                         editor.apply();
                         Toast.makeText(AddPager.this, getResources().getString(R.string.toast_succes_done), Toast.LENGTH_SHORT).show();
                     }

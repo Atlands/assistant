@@ -42,11 +42,10 @@ public class FragmentHome1 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home1, container, false);
-        recyclerView=view.findViewById(R.id.rv);
+        recyclerView = view.findViewById(R.id.rv);
         //LitePal.getDatabase();
         //初始化数据
         initData();
-
         return view;
     }
 
@@ -60,21 +59,21 @@ public class FragmentHome1 extends Fragment {
             if (twolevels.size() > 0) {
                 for (Twolevel twolevel : twolevels) {
                     TreeNode<Dir> two = one.addChild(new TreeNode<>(new Dir(twolevel.getName())));
-                    List<Contentlist>contentlists=LitePal.where("wid = ?",twolevel.getId()+"").find(Contentlist.class);
-                    for (Contentlist contentlist:contentlists){
+                    List<Contentlist> contentlists = LitePal.where("wid = ?", twolevel.getId() + "").find(Contentlist.class);
+                    for (Contentlist contentlist : contentlists) {
                         two.addChild(new TreeNode<>(new File(contentlist.getName())));
                     }
                 }
-            }else {
-                List<Contentlist>contentlists=LitePal.where("oid = ?",onelevel.getId()+"").find(Contentlist.class);
-                for (Contentlist contentlist:contentlists){
+            } else {
+                List<Contentlist> contentlists = LitePal.where("oid = ?", onelevel.getId() + "").find(Contentlist.class);
+                for (Contentlist contentlist : contentlists) {
                     one.addChild(new TreeNode<>(new File(contentlist.getName())));
                 }
             }
         }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL, false));
-        adapter=new TreeViewAdapter(nodes, Arrays.asList(new FileNodeBinder(),new DirectoryNodeBinder()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        adapter = new TreeViewAdapter(nodes, Arrays.asList(new FileNodeBinder(), new DirectoryNodeBinder()));
         //是否折叠树视图
         adapter.ifCollapseChildWhileCollapseParent(true);
         adapter.setOnTreeNodeListener(new TreeViewAdapter.OnTreeNodeListener() {

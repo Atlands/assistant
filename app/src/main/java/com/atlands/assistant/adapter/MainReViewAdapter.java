@@ -14,24 +14,22 @@ import com.atlands.assistant.db.Contentlist;
 
 import java.util.List;
 
-public class ReViewAdapter extends RecyclerView.Adapter<ReViewAdapter.ViewHolder> {
+public class MainReViewAdapter extends RecyclerView.Adapter<MainReViewAdapter.ViewHolder> {
     private List<Contentlist> mList;
 
-    public ReViewAdapter(List<Contentlist> contentlists) {
+    public MainReViewAdapter(List<Contentlist> contentlists) {
         mList = contentlists;
     }
 
     @NonNull
     @Override
-    public ReViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MainReViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_file, viewGroup, false);
-        ViewHolder holder = new ViewHolder(view);
-
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ReViewAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull MainReViewAdapter.ViewHolder viewHolder, int i) {
         final Contentlist contentlist=mList.get(i);
         viewHolder.textView.setText(contentlist.getName());
         viewHolder.iView.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +50,10 @@ public class ReViewAdapter extends RecyclerView.Adapter<ReViewAdapter.ViewHolder
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         View iView;
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             iView=itemView;
             textView = itemView.findViewById(R.id.tv_name);
-
         }
     }
 }

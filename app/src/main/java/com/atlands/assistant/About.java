@@ -17,8 +17,8 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         ActionBar actionBar = getSupportActionBar();
@@ -27,10 +27,12 @@ public class About extends AppCompatActivity {
             actionBar.setBackgroundDrawable(null);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_black);
         }
+        toolbar.setTitle(R.string.drawer3);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
         }
         return super.onOptionsItemSelected(item);

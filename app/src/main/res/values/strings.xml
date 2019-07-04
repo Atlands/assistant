@@ -3,7 +3,7 @@
 
     <string name="ad_text_skip">s | 跳过</string>
     //折叠菜单选项
-    <string name="drawer1">路径</string>
+    <string name="drawer1">开发者网站</string>
     <string name="drawer2">新增</string>
     <string name="drawer3">关于</string>
 
@@ -21,13 +21,22 @@
     <string name="done">完成</string>
     <string name="toast_not_done">根路径不能为空</string>
     <string name="toast_succes_done">添加成功!</string>
+    <string name="toast_not_none">输入不能为空</string>
+    <string name="online_link">https://</string>
 
     //contentpager页
-    <string name="delete"> 删除本章</string>
+    <string name="collect">收藏本页</string>
+    <string name="delete"> 删除本页</string>
     <string name="copy">复制网址</string>
     <string name="webapp">用浏览器打开</string>
     <string name="toast_succes_delete">删除成功</string>
     <string name="toast_succes_copy">复制成功</string>
-    <string name="toast_not_none">输入不能为空</string>
-    <string name="online_link">https://</string>
+
+    //develop页
+    <string name="csdn">CSDN</string>
+    <string name="csdn_url">https://www.csdn.net/</string>
+    <string name="csdn_miaoshu">\t中国专业IT社区CSDN (Chinese Software Developer Network) 创立于1999年，致力于为中国软件开发者提供知识传播、在线学习、职业发展等全生命周期服务。</string>
+    <string name="jianshu">简书</string>
+    <string name="jianshu_url">https://www.jianshu.com/</string>
+    <string name="jianshu_miaoshu">\t简书是一个创作社区，任何人均可以在其上进行创作。用户在简书上面可以方便的创作自己的作品，互相交流。</string>
 </resources>
