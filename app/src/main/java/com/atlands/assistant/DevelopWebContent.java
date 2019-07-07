@@ -28,17 +28,19 @@ import java.util.Objects;
 
 public class DevelopWebContent extends AppCompatActivity {
     private AgentWeb mAgentWeb;
-    private String current = null;
+    private String currentUrl = null;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_develop_web_content);
+
         TextView textView = findViewById(R.id.bar_title);
         textView.setVisibility(View.GONE);
         LinearLayout layout = findViewById(R.id.link_web);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         ActionBar actionBar = getSupportActionBar();
@@ -48,8 +50,10 @@ public class DevelopWebContent extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_black);
         }
         toolbar.setTitle(R.string.drawer1);
+
         Intent intent = getIntent();
         String urlLink = intent.getStringExtra("url");
+
         mAgentWeb = AgentWeb.with(this)
                 .setAgentWebParent((LinearLayout) layout, new LinearLayout.LayoutParams(-1, -1))
                 .useDefaultIndicator()
@@ -57,15 +61,6 @@ public class DevelopWebContent extends AppCompatActivity {
                 .createAgentWeb()
                 .ready()
                 .go(urlLink);
-        //mWebViewClient.onPageStarted(mAgentWeb,urlLink,null);
-        //获取网页的标题
-        mAgentWeb.getWebCreator().getWebView().setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onReceivedTouchIconUrl(WebView view, String url, boolean precomposed) {
-                current = url;
-                super.onReceivedTouchIconUrl(view, url, precomposed);
-            }
-        });
     }
 
     @Override
@@ -77,8 +72,16 @@ public class DevelopWebContent extends AppCompatActivity {
     //标题栏菜单实现
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        currentUrl=mAgentWeb.getWebCreator().getWebView().getUrl();
         switch (item.getItemId()) {
             case android.R.id.home:
+                finish();
+                break;
+            case R.id.collect:
+                Intent intent_Add=new Intent(DevelopWebContent.this,AddPager.class);
+                intent_Add.putExtra("title",mAgentWeb.getWebCreator().getWebView().getTitle());
+                intent_Add.putExtra("url",currentUrl);
+                startActivity(intent_Add);
                 finish();
                 break;
             case R.id.copy:
@@ -87,7 +90,7 @@ public class DevelopWebContent extends AppCompatActivity {
                 //创建ClipData对象
                 //第一个参数只是一个标记，随便传入。
                 //第二个参数是要复制到剪贴版的内容
-                ClipData clip = ClipData.newPlainText("simple text ", current);
+                ClipData clip = ClipData.newPlainText("simple text ", currentUrl);
                 //传入clipdata对象.
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(DevelopWebContent.this, getResources().getString(R.string.toast_succes_copy), Toast.LENGTH_SHORT).show();
@@ -95,7 +98,7 @@ public class DevelopWebContent extends AppCompatActivity {
             case R.id.skip_web:
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
-                Uri skip_uri = Uri.parse(current);
+                Uri skip_uri = Uri.parse(currentUrl);
                 intent.setData(skip_uri);
                 startActivity(intent);
             default:

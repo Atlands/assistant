@@ -19,14 +19,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class DevelopWeb extends AppCompatActivity {
-
+    List<Develop> develops = new ArrayList<>();
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_develop_web);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                initData();
+            }
+        }).start();
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
         ActionBar actionBar = getSupportActionBar();
@@ -36,27 +43,22 @@ public class DevelopWeb extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_black);
         }
         toolbar.setTitle(R.string.drawer1);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        DevelopReViewAdapter adapter=new DevelopReViewAdapter(initData());
+        DevelopReViewAdapter adapter = new DevelopReViewAdapter(develops);
         recyclerView.setAdapter(adapter);
     }
 
-    private List<Develop> initData() {
-        List<Develop> develops=new ArrayList<>();
-        Develop develop=new Develop();
-        develop.setIcon(R.drawable.ic_develop_csdn);
-        develop.setTitle(getResources().getString(R.string.csdn));
-        develop.setUrl(getResources().getString(R.string.csdn_url));
-        develop.setRecommend(getResources().getString(R.string.csdn_miaoshu));
+    private void initData() {
+        Develop develop = new Develop(getResources().getString(R.string.csdn), getResources().getString(R.string.csdn_miaoshu),
+                R.drawable.ic_develop_csdn, getResources().getString(R.string.csdn_url));
         develops.add(develop);
-        develop.setIcon(R.drawable.ic_develop_jianshu);
-        develop.setTitle(getResources().getString(R.string.jianshu));
-        develop.setUrl(getResources().getString(R.string.jianshu_url));
-        develop.setRecommend(getResources().getString(R.string.jianshu_miaoshu));
-        develops.add(develop);
-        return develops;
+        Develop develop1 = new Develop(getResources().getString(R.string.jianshu), getResources().getString(R.string.jianshu_miaoshu),
+                R.drawable.ic_develop_jianshu, getResources().getString(R.string.jianshu_url));
+        develops.add(develop1);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

@@ -1,6 +1,7 @@
 package com.atlands.assistant;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
@@ -60,6 +61,13 @@ public class AddPager extends AppCompatActivity {
         }
 
         textView.setText(getResources().getString(R.string.drawer2));
+
+        Intent intent = getIntent();
+        String url_link = intent.getStringExtra("url");
+        if (!url_link.equals("")) {
+            title.setText(intent.getStringExtra("title"));
+            url.setText(url_link);
+        }
 
         select = getResources().getString(R.string.select);
         final List<String> item1 = new ArrayList<>();

@@ -6,11 +6,10 @@ public class Develop {
     private int icon;
     private String url;
 
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
+    public Develop(String title, String recommend, int icon, String url) {
+        this.title = title;
+        this.recommend = recommend;
+        this.icon = icon;
         this.url = url;
     }
 
@@ -18,23 +17,15 @@ public class Develop {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getRecommend() {
         return recommend;
-    }
-
-    public void setRecommend(String recommend) {
-        this.recommend = recommend;
     }
 
     public int getIcon() {
         return icon;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
+    public String getUrl() {
+        return url;
     }
 }

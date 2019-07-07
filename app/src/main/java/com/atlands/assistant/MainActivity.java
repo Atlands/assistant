@@ -47,12 +47,18 @@ public class MainActivity extends AppCompatActivity {
         //控件初始化
         initView();
 
-        preferences = getSharedPreferences("main_isRenovateViewPager", MODE_PRIVATE);
-        editor = preferences.edit();
-        editor.putInt("is_renovate_ViewPager", 10);
-        editor.apply();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                preferences = getSharedPreferences("main_isRenovateViewPager", MODE_PRIVATE);
+                editor = preferences.edit();
+                editor.putInt("is_renovate_ViewPager", 10);
+                editor.apply();
+            }
+        }).start();
 
         initViewPager();
+        whatFagment(1);
         //底部导航点击事件
         bNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -23,18 +23,26 @@ import static java.lang.Thread.sleep;
 public class AdStart extends AppCompatActivity {
     private TextView textView;
     private int count = 1;
-    private final MyHandler mHandler = new MyHandler(this);
+   // private final MyHandler mHandler = new MyHandler(this);
 
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //导入数据库
-        DBManager dbHelper = new DBManager(this);
-        dbHelper.openDatabase();
-        dbHelper.closeDatabase();
-        //LitePal初始化
-        LitePal.initialize(this);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //导入数据库
+                DBManager dbHelper = new DBManager(AdStart.this);
+                dbHelper.openDatabase();
+                dbHelper.closeDatabase();
+                //LitePal初始化
+                LitePal.initialize(AdStart.this);
+            }
+        }).start();
+
+
         //定义全屏参数
         int flag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
         //设置当前窗体为全屏显示
@@ -50,7 +58,23 @@ public class AdStart extends AppCompatActivity {
             }
         });
         textView.setVisibility(View.GONE);
-        //mHandler.sendEmptyMessageDelayed(0, 1000);
+        /*new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 0;
+                for (; count <= 0; count--) {
+                    mHandler.handleMessage(message);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();*/
+       // handler.sendEmptyMessageDelayed(0, 1000);
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -70,11 +94,13 @@ public class AdStart extends AppCompatActivity {
         return count;
     }
 
-    private static class MyHandler extends Handler {
+    /*private static class MyHandler extends Handler {
         private final WeakReference<AdStart> mActivity;
+
         MyHandler(AdStart activity) {
             mActivity = new WeakReference<AdStart>(activity);
         }
+
         @Override
         public void handleMessage(Message msg) {
             AdStart activity = mActivity.get();
@@ -86,20 +112,20 @@ public class AdStart extends AppCompatActivity {
                 }
             }
         }
-    }
+    }*/
 
 
-//    Handler handler = new Handler() {
-//
-//        public void handleMessage(android.os.Message msg) {
-//            if (msg.what == 0) {
-//                textView.setText(getCount() + R.string.ad_text_skip);
-//                handler.sendEmptyMessageDelayed(0, 1000);
-//            }
-//
-//        }
-//
-//        ;
-//    };
+   /* Handler handler = new Handler() {
+
+        public void handleMessage(android.os.Message msg) {
+            if (msg.what == 0) {
+                textView.setText(getCount() + R.string.ad_text_skip);
+                handler.sendEmptyMessageDelayed(0, 1000);
+            }
+
+        }
+
+        ;
+    };*/
 
 }
