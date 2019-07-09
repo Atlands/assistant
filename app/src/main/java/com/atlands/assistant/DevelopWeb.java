@@ -20,6 +20,7 @@ import java.util.Objects;
 
 public class DevelopWeb extends AppCompatActivity {
     List<Develop> develops = new ArrayList<>();
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +52,16 @@ public class DevelopWeb extends AppCompatActivity {
     }
 
     private void initData() {
-        Develop develop = new Develop(getResources().getString(R.string.csdn), getResources().getString(R.string.csdn_miaoshu),
+        Develop develop;
+        develop = new Develop(getResources().getString(R.string.csdn), getResources().getString(R.string.csdn_miaoshu),
                 R.drawable.ic_develop_csdn, getResources().getString(R.string.csdn_url));
         develops.add(develop);
-        Develop develop1 = new Develop(getResources().getString(R.string.jianshu), getResources().getString(R.string.jianshu_miaoshu),
+        develop = new Develop(getResources().getString(R.string.jianshu), getResources().getString(R.string.jianshu_miaoshu),
                 R.drawable.ic_develop_jianshu, getResources().getString(R.string.jianshu_url));
-        develops.add(develop1);
+        develops.add(develop);
+        develop = new Develop(getResources().getString(R.string.wanandroid), getResources().getString(R.string.wanandroid_miaoshu),
+                R.drawable.ic_develop_wanandroid, getResources().getString(R.string.wanandroid_url));
+        develops.add(develop);
     }
 
     @Override

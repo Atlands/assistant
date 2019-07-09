@@ -39,4 +39,7 @@
     <string name="jianshu">简书</string>
     <string name="jianshu_url">https://www.jianshu.com/</string>
     <string name="jianshu_miaoshu">\t简书是一个创作社区，任何人均可以在其上进行创作。用户在简书上面可以方便的创作自己的作品，互相交流。</string>
+    <string name="wanandroid">玩Android</string>
+    <string name="wanandroid_url">https://www.wanandroid.com/</string>
+    <string name="wanandroid_miaoshu">\t玩Android是一个每日推荐20~30篇Android优质文章的站点,提供Android常用工具和常用网站,并以知识体系的形式展现所有的文章分类。</string>
 </resources>

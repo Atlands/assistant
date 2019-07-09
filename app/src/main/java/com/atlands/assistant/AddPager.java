@@ -63,8 +63,9 @@ public class AddPager extends AppCompatActivity {
         textView.setText(getResources().getString(R.string.drawer2));
 
         Intent intent = getIntent();
-        String url_link = intent.getStringExtra("url");
-        if (!url_link.equals("")) {
+        String url_link = "";
+        url_link = intent.getStringExtra("url");
+        if (url_link != null && !url_link.equals("")) {
             title.setText(intent.getStringExtra("title"));
             url.setText(url_link);
         }
@@ -180,6 +181,7 @@ public class AddPager extends AppCompatActivity {
                         editor.putInt("is_renovate_ViewPager", selectitem1);
                         editor.apply();
                         Toast.makeText(AddPager.this, getResources().getString(R.string.toast_succes_done), Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }
