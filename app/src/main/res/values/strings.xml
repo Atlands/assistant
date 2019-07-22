@@ -10,7 +10,7 @@
     //首页导航项
     <string name="navigation1">基础</string>
     <string name="navigation2">进阶</string>
-    <string name="navigation3">报错</string>
+    <string name="navigation3">问题</string>
     <string name="navigation4">我的</string>
 
     //addpager页

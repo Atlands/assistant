@@ -1,7 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="250dp"
-    android:background="@drawable/ic_launcher_background"
+    android:gravity="center"
+    android:background="#28CDCDCD"
     android:fitsSystemWindows="true">
-
+    <ImageView
+        android:src="@drawable/ic_lunch"
+        android:layout_width="64dp"
+        android:layout_height="64dp" />
 </LinearLayout>
